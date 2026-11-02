@@ -633,7 +633,7 @@
     { id:"authors",   label:"Кто что написал", kind:"authors",   min:2 },
     { id:"lists",     label:"Назови все",      kind:"lists",     min:1 },
     { id:"chrono",    label:"Хронология",      kind:"chrono",    min:2 },
-    { id:"pairs",     label:"Путаница",        kind:"pairs",     min:1 },
+    { id:"pairs",     label:"Отличия",         kind:"pairs",     min:1 },
     { id:"formulas",  label:"Формулы",         kind:"formulas",  min:1 },
     { id:"questions", label:"Самопроверка",    kind:"questions", min:1 }
   ];
@@ -709,7 +709,7 @@
   function resetRuns(){ S.q = null; S.match = null; S.test = null; S.ch = null; S.pos = 0; S.flipped = false; }
 
   /* ---------------- темы ---------------- */
-  var KIND_LABEL = { cards:"карточки", authors:"авторы", lists:"списки", chrono:"хронология", pairs:"путаница", formulas:"формулы", questions:"вопросы" };
+  var KIND_LABEL = { cards:"карточки", authors:"авторы", lists:"списки", chrono:"хронология", pairs:"отличия", formulas:"формулы", questions:"вопросы" };
   function badges(topics){
     return '<span class="badges">' + KINDS.map(function(kind){
       var n = itemsOf(topics, kind).length;
@@ -1384,7 +1384,7 @@
     if(b && !b.disabled) b.focus();
   }
 
-  /* ---------------- путаница ---------------- */
+  /* ---------------- отличия ---------------- */
   // в описании отличия прячем названия понятий, чтобы ответ не был виден из текста
   function maskNames(text, names){
     var stems = [], exact = {};
