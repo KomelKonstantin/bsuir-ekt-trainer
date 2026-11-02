@@ -1,0 +1,1330 @@
+<title>BSUIR English Wordlists</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#E9EDF2; --surface:#FFFFFF; --surface-2:#F4F7FA;
+    --ink:#15202C; --muted:#5D6B7C; --line:#D3DBE4;
+    --accent:#1D4E89; --accent-soft:#E0E9F5; --accent-ink:#ffffff;
+    --gold:#B4801B; --ok:#2B7A5B; --ok-soft:#DCEFE6;
+    --miss:#B0402C; --miss-soft:#F7E2DD;
+    --shadow:0 1px 2px rgba(21,32,44,.06), 0 8px 24px rgba(21,32,44,.07);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0E131A; --surface:#18202B; --surface-2:#141C25;
+      --ink:#E7EDF4; --muted:#93A2B3; --line:#2A3540;
+      --accent:#7AA9EC; --accent-soft:#1E2B3C; --accent-ink:#0E131A;
+      --gold:#DDB35C; --ok:#55B994; --ok-soft:#16302A;
+      --miss:#E8836E; --miss-soft:#33201C;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0E131A; --surface:#18202B; --surface-2:#141C25;
+    --ink:#E7EDF4; --muted:#93A2B3; --line:#2A3540;
+    --accent:#7AA9EC; --accent-soft:#1E2B3C; --accent-ink:#0E131A;
+    --gold:#DDB35C; --ok:#55B994; --ok-soft:#16302A;
+    --miss:#E8836E; --miss-soft:#33201C;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:16px; line-height:1.5; margin:0;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding-inline:16px; padding-block:0 48px}
+  button{font:inherit; color:inherit; cursor:pointer}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:6px}
+
+  /* ---------- header ---------- */
+  header.top{
+    position:sticky; top:env(safe-area-inset-top, 0px); z-index:20;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .top-in{max-width:880px; margin:0 auto; padding-inline:16px; padding-block:14px 0}
+  .eyebrow{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted);
+  }
+  .title-row{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  h1{
+    font-family:Spectral, Georgia, serif; font-weight:600;
+    font-size:clamp(21px, 4.6vw, 28px); line-height:1.15; margin:2px 0 0;
+    text-wrap:balance;
+  }
+  h1 .ru{display:block; font-size:14px; font-weight:400; font-family:"IBM Plex Sans", sans-serif; color:var(--muted); margin-top:3px}
+  .meter{display:flex; align-items:center; gap:10px; padding-bottom:3px}
+  .meter-track{width:104px; height:6px; border-radius:99px; background:var(--line); overflow:hidden}
+  .meter-fill{height:100%; width:0%; background:var(--ok); transition:width .35s ease}
+  .meter-num{font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
+
+  nav.modes{display:flex; gap:2px; margin-top:12px; overflow-x:auto; scrollbar-width:none}
+  nav.modes::-webkit-scrollbar{display:none}
+  .mode{
+    background:none; border:0; border-bottom:2px solid transparent;
+    padding:9px 12px; font-size:14px; font-weight:500; color:var(--muted);
+    white-space:nowrap; border-radius:6px 6px 0 0;
+  }
+  .mode:hover{color:var(--ink)}
+  .mode[aria-selected="true"]{color:var(--accent); border-bottom-color:var(--accent)}
+
+  /* ---------- controls ---------- */
+  .toolbar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:18px 0 16px}
+  .chip{
+    background:var(--surface); border:1px solid var(--line); border-radius:99px;
+    padding:6px 13px; font-size:13px; color:var(--muted); display:inline-flex; align-items:center; gap:6px;
+  }
+  .chip:hover{border-color:var(--accent); color:var(--ink)}
+  .chip[aria-pressed="true"]{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:500}
+  .spacer{flex:1 1 auto}
+  select.chip{appearance:none; padding-right:26px; max-width:100%;
+    background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+    background-position:calc(100% - 15px) 12px, calc(100% - 10px) 12px;
+    background-size:5px 5px,5px 5px; background-repeat:no-repeat;}
+  select#lessonSel{font-weight:500; color:var(--ink)}
+
+  /* ---------- профили и вход ---------- */
+  .gate{
+    position:fixed; inset:0; z-index:50; overflow-y:auto;
+    background:color-mix(in srgb, var(--paper) 94%, transparent);
+    backdrop-filter:blur(8px);
+    padding:16px; padding-top:calc(24px + env(safe-area-inset-top, 0px));
+    padding-bottom:calc(24px + env(safe-area-inset-bottom, 0px));
+    display:flex; align-items:flex-start; justify-content:center;
+  }
+  .gate-card{
+    width:100%; max-width:460px; background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); box-shadow:var(--shadow); padding:26px 22px;
+  }
+  .gate-eyebrow{
+    font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px;
+  }
+  .gate-card h2{font-family:Spectral, Georgia, serif; font-weight:600; font-size:23px; margin:0 0 6px; line-height:1.2}
+  .gate-sub{color:var(--muted); font-size:13.5px; margin:0 0 20px; line-height:1.5}
+  .divider{display:flex; align-items:center; gap:10px; margin:20px 0; color:var(--muted); font-size:12px}
+  .divider::before, .divider::after{content:""; flex:1; height:1px; background:var(--line)}
+  .link-btn{
+    background:none; border:0; padding:0; color:var(--accent); font-size:13.5px;
+    text-decoration:underline; text-underline-offset:3px;
+  }
+  .link-btn.danger{color:var(--miss)}
+  .note{font-size:12.5px; color:var(--muted); line-height:1.55}
+  .msg{padding:11px 13px; border-radius:11px; font-size:13.5px; margin-bottom:14px; border:1px solid}
+  .msg.err{background:var(--miss-soft); border-color:var(--miss); color:var(--miss)}
+  .msg.ok{background:var(--ok-soft); border-color:var(--ok); color:var(--ok)}
+  .row-actions{display:flex; gap:9px; flex-wrap:wrap; margin-top:4px}
+  .row-actions .btn-primary, .row-actions .btn-ghost{padding:11px 18px; font-size:14px}
+  textarea.code{
+    width:100%; min-height:110px; margin-top:10px; padding:12px; resize:vertical;
+    font-family:"IBM Plex Mono", monospace; font-size:11.5px; line-height:1.5;
+    color:var(--ink); background:var(--surface-2); border:1px solid var(--line); border-radius:11px;
+  }
+  .stat-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:9px; margin:18px 0}
+  @media (max-width:420px){ .stat-grid{grid-template-columns:repeat(2, 1fr)} }
+  .stat{background:var(--surface-2); border:1px solid var(--line); border-radius:11px; padding:12px 13px}
+  .stat b{display:block; font-family:Spectral, Georgia, serif; font-size:22px; font-weight:600; font-variant-numeric:tabular-nums}
+  .stat span{font-size:11.5px; color:var(--muted)}
+
+  /* ---------- lesson index ---------- */
+  .module-head{
+    font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); margin:22px 0 9px;
+  }
+  .module-head:first-child{margin-top:0}
+  .lesson-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:10px}
+  .lesson-card{
+    text-align:left; background:var(--surface); border:1px solid var(--line);
+    border-radius:12px; box-shadow:var(--shadow); padding:15px 16px;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .lesson-card:hover{border-color:var(--accent)}
+  .lesson-card[aria-current="true"]{border-color:var(--accent); background:var(--accent-soft)}
+  .lesson-no{font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.1em; color:var(--gold)}
+  .lesson-card b{font-family:Spectral, Georgia, serif; font-weight:600; font-size:17px; line-height:1.2}
+  .lesson-card .ru{font-size:13px; color:var(--muted)}
+  .lesson-bar{height:4px; border-radius:99px; background:var(--line); overflow:hidden; margin-top:3px}
+  .lesson-bar i{display:block; height:100%; background:var(--ok)}
+  .lesson-foot{font-family:"IBM Plex Mono", monospace; font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+  /* ---------- flashcard ---------- */
+  .stage{display:flex; flex-direction:column; align-items:center; gap:14px}
+  .card-scene{width:100%; perspective:1400px}
+  .card{
+    position:relative; width:100%; min-height:270px;
+    transform-style:preserve-3d; transition:transform .5s cubic-bezier(.3,.8,.3,1);
+    cursor:pointer; border:0; background:none; padding:0; display:block; text-align:left;
+  }
+  .card.flipped{transform:rotateY(180deg)}
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:12px; padding:34px 24px; text-align:center;
+  }
+  .face.back{transform:rotateY(180deg); background:var(--surface-2)}
+  .term{
+    font-family:Spectral, Georgia, serif; font-weight:600;
+    font-size:clamp(24px, 5.6vw, 38px); line-height:1.2; text-wrap:balance;
+  }
+  .face.back .term{font-weight:400}
+  .pos{
+    font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--gold);
+  }
+  .face-hint{
+    position:absolute; bottom:14px; left:0; right:0; text-align:center;
+    font-size:12px; color:var(--muted);
+  }
+  .card-tools{position:absolute; top:12px; right:12px; display:flex; gap:4px}
+  .icon-btn{
+    width:34px; height:34px; display:grid; place-items:center;
+    background:none; border:1px solid transparent; border-radius:9px; color:var(--muted); font-size:15px;
+  }
+  .icon-btn:hover{background:var(--surface-2); border-color:var(--line); color:var(--ink)}
+  .icon-btn.starred{color:var(--gold)}
+
+  .nav-row{display:flex; align-items:center; justify-content:center; gap:16px; width:100%}
+  .round-btn{
+    width:44px; height:44px; border-radius:50%; border:1px solid var(--line);
+    background:var(--surface); display:grid; place-items:center; font-size:17px; color:var(--ink);
+  }
+  .round-btn:hover{border-color:var(--accent); color:var(--accent)}
+  .counter{font-family:"IBM Plex Mono", monospace; font-size:14px; color:var(--muted); font-variant-numeric:tabular-nums; min-width:76px; text-align:center}
+  .verdict-row{display:flex; gap:10px; width:100%; max-width:420px}
+  .verdict{
+    flex:1; padding:11px 10px; border-radius:11px; border:1px solid var(--line);
+    background:var(--surface); font-size:14px; font-weight:500;
+  }
+  .verdict.miss:hover{background:var(--miss-soft); border-color:var(--miss); color:var(--miss)}
+  .verdict.ok:hover{background:var(--ok-soft); border-color:var(--ok); color:var(--ok)}
+
+  /* ---------- quiz ---------- */
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:26px 22px;
+  }
+  .prompt-label{font-size:12px; color:var(--muted); text-align:center}
+  .prompt{
+    font-family:Spectral, Georgia, serif; font-size:clamp(22px, 5vw, 30px);
+    text-align:center; margin:6px 0 22px; text-wrap:balance; line-height:1.25;
+    min-height:2.5em; display:flex; align-items:center; justify-content:center;
+  }
+  .options{display:grid; gap:9px}
+  .opt{
+    text-align:left; padding:13px 15px; border-radius:11px; border:1px solid var(--line);
+    background:var(--surface-2); font-size:15px; transition:background .15s, border-color .15s;
+  }
+  .opt:hover:not(:disabled){border-color:var(--accent); background:var(--accent-soft)}
+  .opt:disabled{cursor:default}
+  .opt.right{background:var(--ok-soft); border-color:var(--ok); color:var(--ok); font-weight:500}
+  .opt.wrong{background:var(--miss-soft); border-color:var(--miss); color:var(--miss)}
+  .answer-form{display:flex; gap:8px; flex-wrap:wrap}
+  input.answer{
+    flex:1 1 220px; min-width:0; padding:13px 15px; font:inherit; color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--line); border-radius:11px;
+  }
+  input.answer::placeholder{color:var(--muted)}
+  .btn-primary{
+    padding:13px 22px; border-radius:11px; border:1px solid var(--accent);
+    background:var(--accent); color:var(--accent-ink); font-weight:500;
+  }
+  .btn-primary:hover{filter:brightness(1.08)}
+  .feedback{margin-top:16px; padding:13px 15px; border-radius:11px; font-size:15px; border:1px solid}
+  .feedback.right{background:var(--ok-soft); border-color:var(--ok); color:var(--ok)}
+  .feedback.wrong{background:var(--miss-soft); border-color:var(--miss); color:var(--miss)}
+  .feedback b{font-family:Spectral, Georgia, serif; font-weight:600}
+  .score-row{display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums}
+
+  /* ---------- match ---------- */
+  .match-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:9px}
+  @media (max-width:560px){ .match-grid{grid-template-columns:repeat(2, 1fr)} }
+  .tile{
+    min-height:82px; padding:11px 9px; border-radius:11px; border:1px solid var(--line);
+    background:var(--surface); box-shadow:var(--shadow); font-size:14px; line-height:1.35;
+    display:grid; place-items:center; text-align:center; word-break:break-word;
+  }
+  .tile.en{font-family:Spectral, Georgia, serif; font-size:15px}
+  .tile:hover:not(:disabled){border-color:var(--accent)}
+  .tile.picked{background:var(--accent-soft); border-color:var(--accent); color:var(--accent)}
+  .tile.gone{opacity:0; pointer-events:none; transition:opacity .3s}
+  .tile.bad{animation:shake .32s}
+  @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  @media (prefers-reduced-motion: reduce){
+    .card, .tile.gone, .meter-fill{transition:none}
+    .tile.bad{animation:none}
+  }
+
+  /* ---------- test ---------- */
+  .setup-label{
+    font-family:"IBM Plex Mono", monospace; font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 9px;
+  }
+  .setup-group + .setup-group{margin-top:22px}
+  .format-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  @media (max-width:520px){ .format-grid{grid-template-columns:1fr} }
+  .format-card{
+    text-align:left; padding:16px; border-radius:12px; border:1px solid var(--line);
+    background:var(--surface-2); display:flex; flex-direction:column; gap:5px;
+  }
+  .format-card:hover{border-color:var(--accent)}
+  .format-card[aria-pressed="true"]{background:var(--accent-soft); border-color:var(--accent)}
+  .format-card b{font-family:Spectral, Georgia, serif; font-weight:600; font-size:17px}
+  .format-card span{font-size:13px; color:var(--muted); line-height:1.4}
+  .format-card[aria-pressed="true"] span{color:var(--ink)}
+  .seg{display:flex; flex-wrap:wrap; gap:7px}
+  .seg .chip{background:var(--surface-2)}
+  .test-start{width:100%; margin-top:24px}
+  .qbar{height:4px; border-radius:99px; background:var(--line); overflow:hidden; margin-bottom:20px}
+  .qbar-fill{height:100%; background:var(--accent); transition:width .3s ease}
+  .test-meta{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:10px; font-variant-numeric:tabular-nums}
+  .skip-btn{
+    display:block; margin:14px auto 0; background:none; border:0;
+    font-size:13px; color:var(--muted); text-decoration:underline; text-underline-offset:3px;
+  }
+  .skip-btn:hover{color:var(--ink)}
+  .review-head{font-family:Spectral, Georgia, serif; font-weight:600; font-size:18px; margin:26px 0 10px}
+  .your-answer{color:var(--miss); font-size:14px}
+  .your-answer.blank{color:var(--muted); font-style:italic}
+  .done-actions{display:flex; gap:9px; justify-content:center; flex-wrap:wrap}
+  .btn-ghost{padding:13px 22px; border-radius:11px; border:1px solid var(--line); background:var(--surface); font-weight:500}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent)}
+
+  /* ---------- list ---------- */
+  table{width:100%; border-collapse:collapse; font-size:15px}
+  .table-wrap{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+  th{
+    text-align:left; font-family:"IBM Plex Mono", monospace; font-weight:500;
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+    padding:11px 14px; border-bottom:1px solid var(--line); background:var(--surface-2);
+  }
+  td{padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  tr.learned td:first-child{border-left:3px solid var(--ok); padding-left:11px}
+  .en-cell{font-family:Spectral, Georgia, serif; font-size:16px}
+  .en-cell .pos{margin-left:7px}
+  td.act{width:1%; white-space:nowrap; text-align:right}
+  .empty{padding:34px 16px; text-align:center; color:var(--muted); font-size:15px}
+
+  .done-card{text-align:center; padding:36px 22px}
+  .done-card h2{font-family:Spectral, Georgia, serif; font-weight:600; font-size:24px; margin:0 0 8px}
+  .done-card p{color:var(--muted); margin:0 0 20px}
+  .big-num{font-family:Spectral, Georgia, serif; font-size:44px; color:var(--accent); font-variant-numeric:tabular-nums}
+  footer{margin-top:34px; padding-top:16px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); text-align:center}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="title-row">
+      <div>
+        <div class="eyebrow" id="eyebrow">Module I · University Studies</div>
+        <h1 id="pageTitle">Lesson 1<span class="ru">—</span></h1>
+      </div>
+      <div class="meter">
+        <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
+        <span class="meter-num" id="meterNum">0 / 0</span>
+      </div>
+    </div>
+    <nav class="modes" role="tablist" aria-label="Режим изучения">
+      <button class="mode" role="tab" data-mode="index"  aria-selected="false">Уроки</button>
+      <button class="mode" role="tab" data-mode="cards"  aria-selected="true">Карточки</button>
+      <button class="mode" role="tab" data-mode="learn"  aria-selected="false">Заучивание</button>
+      <button class="mode" role="tab" data-mode="write"  aria-selected="false">Письмо</button>
+      <button class="mode" role="tab" data-mode="match"  aria-selected="false">Подбор</button>
+      <button class="mode" role="tab" data-mode="test"   aria-selected="false">Тест</button>
+      <button class="mode" role="tab" data-mode="list"   aria-selected="false">Список</button>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="toolbar">
+    <button class="chip" id="profileBtn">Прогресс · файл</button>
+    <select class="chip" id="lessonSel" aria-label="Выбрать урок"></select>
+    <button class="chip" id="dirBtn" aria-pressed="false">EN → RU</button>
+    <select class="chip" id="filterSel" aria-label="Какие слова показывать">
+      <option value="all">Все слова</option>
+      <option value="unlearned">Невыученные</option>
+      <option value="hard">Трудные ★</option>
+    </select>
+    <button class="chip" id="shuffleBtn">Перемешать</button>
+    <span class="spacer"></span>
+    <button class="chip" id="resetBtn">Сбросить прогресс</button>
+  </div>
+
+  <main id="view"></main>
+
+  <footer id="foot"></footer>
+</div>
+
+<div class="gate" id="gate" hidden></div>
+<input type="file" id="fileIn" accept="application/json,.json" hidden>
+
+<script>
+(function(){
+  "use strict";
+
+  var LESSONS = /*__LESSONS__*/[];
+
+  // сквозной id слова: номер урока * 1000 + позиция в списке
+  var ALL = {}, byId = {}, TOTAL = 0;
+  LESSONS.forEach(function(L){
+    ALL[L.n] = L.entries.map(function(e, i){
+      var w = { id: L.n * 1000 + i, en: e[0], ru: e[1], pos: e[2], lesson: L.n };
+      byId[w.id] = w;
+      return w;
+    });
+    TOTAL += L.entries.length;
+  });
+
+  var KEY = "bsuir-wordlists-progress-v1";
+  var ACC_KEY = "bsuir-wordlists-accounts-v1";   // прежние профили — только чтобы перенести прогресс
+  var OLD_KEY = "bsuir-wordlists-v2";            // ещё более ранняя версия
+  var FILE_TAG = "bsuir-english-wordlists";
+
+  var S = {
+    lesson: LESSONS[0].n,
+    mode:"cards", dir:"en-ru", filter:"all",
+    known:{}, hard:{},
+    order:[], pos:0, flipped:false,
+    quiz:null, match:null, query:""
+  };
+
+  function byLesson(n){
+    for(var i=0;i<LESSONS.length;i++) if(LESSONS[i].n === n) return LESSONS[i];
+    return null;
+  }
+
+  /* --- прогресс: один набор на браузер, без регистрации ---------------- */
+  function applyProgress(d){
+    if(!d || typeof d !== "object") return false;
+    S.known = d.known || {}; S.hard = d.hard || {};
+    if(d.dir === "ru-en" || d.dir === "en-ru") S.dir = d.dir;
+    if(byLesson(d.lesson)) S.lesson = d.lesson;
+    return true;
+  }
+  function save(){
+    try{
+      localStorage.setItem(KEY, JSON.stringify({
+        known:S.known, hard:S.hard, dir:S.dir, lesson:S.lesson, updated:Date.now()
+      }));
+    }catch(e){}
+  }
+  function countKeys(o){ var c = 0; for(var k in o) if(o.hasOwnProperty(k) && byId[k]) c++; return c; }
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(raw && applyProgress(JSON.parse(raw))) return;
+    }catch(e){}
+
+    // первый запуск после отказа от профилей: забираем прогресс из прежних версий.
+    // Старые записи не удаляем — вдруг понадобятся.
+    try{
+      var acc = JSON.parse(localStorage.getItem(ACC_KEY) || "null");
+      if(acc && acc.profiles && acc.profiles.length){
+        var pick = null;
+        acc.profiles.forEach(function(p){
+          if(p.id === acc.active) pick = p;
+        });
+        if(!pick){
+          acc.profiles.forEach(function(p){
+            if(!pick || countKeys(p.known || {}) > countKeys(pick.known || {})) pick = p;
+          });
+        }
+        if(pick && applyProgress(pick)){ save(); return; }
+      }
+    }catch(e){}
+    try{
+      var old = localStorage.getItem(OLD_KEY);
+      if(old && applyProgress(JSON.parse(old))) save();
+    }catch(e){}
+  }
+
+  function fmtDate(ts){
+    try{ return new Date(ts).toLocaleDateString("ru-RU", {day:"numeric", month:"short", year:"numeric"}); }
+    catch(e){ return ""; }
+  }
+
+  load();
+
+  function words(){ return ALL[S.lesson]; }
+  function lesson(){ return byLesson(S.lesson); }
+  function resetOrder(){ S.order = words().map(function(w){ return w.id; }); }
+  resetOrder();
+
+  function deck(){
+    return S.order.map(function(id){ return byId[id]; }).filter(function(w){
+      if(S.filter === "unlearned") return !S.known[w.id];
+      if(S.filter === "hard") return !!S.hard[w.id];
+      return true;
+    });
+  }
+  function front(w, dir){ return (dir || S.dir) === "en-ru" ? w.en : w.ru; }
+  function back(w, dir){ return (dir || S.dir) === "en-ru" ? w.ru : w.en; }
+  function knownIn(n){
+    var c = 0;
+    ALL[n].forEach(function(w){ if(S.known[w.id]) c++; });
+    return c;
+  }
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t=a[i]; a[i]=a[j]; a[j]=t;
+    }
+    return a;
+  }
+  function esc(s){
+    return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  function speak(text){
+    try{
+      if(!window.speechSynthesis) return;
+      var u = new SpeechSynthesisUtterance(text.replace(/[()]/g," "));
+      u.lang = "en-US"; u.rate = .9;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  var view = document.getElementById("view");
+
+  function renderHead(){
+    var L = lesson();
+    document.getElementById("eyebrow").textContent = L.module + " · стр. " + L.page;
+    document.getElementById("pageTitle").innerHTML =
+      "Lesson " + L.n + ". " + esc(L.title) + '<span class="ru">' + esc(L.titleRu) + '</span>';
+    var n = knownIn(S.lesson), t = words().length;
+    document.getElementById("meterFill").style.width = (n/t*100) + "%";
+    document.getElementById("meterNum").textContent = n + " / " + t + " выучено";
+    document.getElementById("foot").textContent =
+      "Wordlist пособия «Topical Issues Through Communication», Н. Г. Касперович и др., БГУИР, 2022. " +
+      LESSONS.length + " уроков, " + TOTAL + " слов. Прогресс сохраняется в этом браузере.";
+  }
+  var renderMeter = renderHead;
+
+  function fillLessonSelect(){
+    var sel = document.getElementById("lessonSel");
+    sel.innerHTML = LESSONS.map(function(L){
+      return '<option value="' + L.n + '"' + (L.n === S.lesson ? " selected" : "") + '>' +
+        "Урок " + L.n + " · " + esc(L.title) + '</option>';
+    }).join("");
+  }
+
+  function emptyState(msg){
+    return '<div class="panel"><div class="empty">' + msg + '</div></div>';
+  }
+
+  /* ---------------- индекс уроков ---------------- */
+  function renderIndex(){
+    var html = "", lastModule = null;
+    LESSONS.forEach(function(L){
+      if(L.module !== lastModule){
+        if(lastModule !== null) html += '</div>';
+        html += '<div class="module-head">' + esc(L.module) + '</div><div class="lesson-grid">';
+        lastModule = L.module;
+      }
+      var n = knownIn(L.n), t = L.entries.length;
+      html += '<button class="lesson-card" data-lesson="' + L.n + '" aria-current="' + (L.n === S.lesson) + '">' +
+        '<span class="lesson-no">LESSON ' + L.n + '</span>' +
+        '<b>' + esc(L.title) + '</b>' +
+        '<span class="ru">' + esc(L.titleRu) + '</span>' +
+        '<span class="lesson-bar"><i style="width:' + (n/t*100) + '%"></i></span>' +
+        '<span class="lesson-foot">' + t + ' слов · выучено ' + n + '</span>' +
+      '</button>';
+    });
+    html += '</div>';
+    view.innerHTML = html;
+
+    Array.prototype.forEach.call(view.querySelectorAll("[data-lesson]"), function(b){
+      b.onclick = function(){
+        selectLesson(+b.dataset.lesson);
+        setMode("cards");
+      };
+    });
+  }
+
+  function selectLesson(n){
+    if(!byLesson(n)) return;
+    S.lesson = n;
+    resetOrder();
+    S.pos = 0; S.flipped = false; S.query = "";
+    startQuiz(); startMatch(); resetTest();
+    fillLessonSelect();
+    save();
+  }
+
+  /* ---------------- карточки ---------------- */
+  function renderCards(){
+    var d = deck();
+    if(!d.length){ view.innerHTML = emptyState("Здесь пусто. Выберите другой набор слов в фильтре."); return; }
+    if(S.pos >= d.length) S.pos = 0;
+    var w = d[S.pos];
+    var starred = !!S.hard[w.id];
+
+    view.innerHTML =
+      '<div class="stage">' +
+        '<div class="card-scene">' +
+          '<button class="card' + (S.flipped ? " flipped" : "") + '" id="card" aria-label="Перевернуть карточку">' +
+            '<div class="face front">' +
+              '<div class="pos">' + esc(w.pos) + '</div>' +
+              '<div class="term">' + esc(front(w)) + '</div>' +
+              '<div class="face-hint">нажмите или пробел — перевернуть</div>' +
+            '</div>' +
+            '<div class="face back">' +
+              '<div class="pos">перевод</div>' +
+              '<div class="term">' + esc(back(w)) + '</div>' +
+              '<div class="face-hint">' + (S.known[w.id] ? "в выученных" : "") + '</div>' +
+            '</div>' +
+          '</button>' +
+          '<div class="card-tools">' +
+            '<button class="icon-btn" id="sayBtn" aria-label="Произнести по-английски" title="Произнести">♪</button>' +
+            '<button class="icon-btn' + (starred ? " starred" : "") + '" id="starBtn" aria-pressed="' + starred + '" aria-label="Отметить как трудное" title="Трудное слово">' + (starred ? "★" : "☆") + '</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="nav-row">' +
+          '<button class="round-btn" id="prevBtn" aria-label="Предыдущее слово">‹</button>' +
+          '<span class="counter">' + (S.pos+1) + " / " + d.length + '</span>' +
+          '<button class="round-btn" id="nextBtn" aria-label="Следующее слово">›</button>' +
+        '</div>' +
+        '<div class="verdict-row">' +
+          '<button class="verdict miss" id="missBtn">Ещё учить</button>' +
+          '<button class="verdict ok" id="okBtn">Знаю</button>' +
+        '</div>' +
+      '</div>';
+
+    document.getElementById("card").onclick = function(){ S.flipped = !S.flipped; renderCards(); };
+    document.getElementById("prevBtn").onclick = function(){ step(-1); };
+    document.getElementById("nextBtn").onclick = function(){ step(1); };
+    document.getElementById("sayBtn").onclick = function(e){ e.stopPropagation(); speak(w.en); };
+    document.getElementById("starBtn").onclick = function(e){
+      e.stopPropagation();
+      if(S.hard[w.id]) delete S.hard[w.id]; else S.hard[w.id] = 1;
+      save(); renderCards();
+    };
+    document.getElementById("okBtn").onclick = function(){
+      S.known[w.id] = 1; delete S.hard[w.id]; save(); renderMeter(); step(1);
+    };
+    document.getElementById("missBtn").onclick = function(){
+      delete S.known[w.id]; S.hard[w.id] = 1; save(); renderMeter(); step(1);
+    };
+  }
+  function step(n){
+    var d = deck();
+    if(!d.length){ renderCards(); return; }
+    S.pos = (S.pos + n + d.length) % d.length;
+    S.flipped = false;
+    renderCards();
+  }
+
+  /* ---------------- заучивание ---------------- */
+  function startQuiz(){
+    S.quiz = { queue: shuffled(deck()), i:0, right:0, wrong:0, answered:false };
+  }
+  function distractors(w, n){
+    var pool = words().filter(function(x){ return x.id !== w.id; });
+    return shuffled(pool).slice(0, n);
+  }
+  function renderLearn(){
+    var d = deck();
+    if(!d.length){ view.innerHTML = emptyState("Здесь пусто. Выберите другой набор слов в фильтре."); return; }
+    if(!S.quiz) startQuiz();
+    var q = S.quiz;
+    if(q.i >= q.queue.length){ view.innerHTML = doneCard(q); wireDone("learn"); return; }
+
+    var w = q.queue[q.i];
+    var opts = shuffled(distractors(w, 3).concat([w]));
+
+    view.innerHTML =
+      '<div class="panel">' +
+        '<div class="prompt-label">' + (S.dir === "en-ru" ? "Что это значит?" : "Как это по-английски?") + '</div>' +
+        '<div class="prompt">' + esc(front(w)) + '</div>' +
+        '<div class="options" id="opts">' +
+          opts.map(function(o,k){
+            return '<button class="opt" data-k="' + k + '">' + esc(back(o)) + '</button>';
+          }).join("") +
+        '</div>' +
+        '<div class="score-row"><span>' + (q.i+1) + " / " + q.queue.length + '</span><span>верно: ' + q.right + ' · ошибок: ' + q.wrong + '</span></div>' +
+      '</div>';
+
+    var btns = view.querySelectorAll(".opt");
+    Array.prototype.forEach.call(btns, function(b){
+      b.onclick = function(){
+        var chosen = opts[+b.dataset.k];
+        var correct = chosen.id === w.id;
+        Array.prototype.forEach.call(btns, function(x){
+          x.disabled = true;
+          if(opts[+x.dataset.k].id === w.id) x.classList.add("right");
+        });
+        if(correct){ q.right++; S.known[w.id] = 1; delete S.hard[w.id]; }
+        else { q.wrong++; b.classList.add("wrong"); delete S.known[w.id]; S.hard[w.id] = 1; }
+        save(); renderMeter();
+        setTimeout(function(){
+          if(S.mode !== "learn") return;
+          q.i++; renderLearn();
+        }, correct ? 620 : 1250);
+      };
+    });
+  }
+
+  /* ---------------- письмо ---------------- */
+  function norm(s){
+    return String(s).toLowerCase().replace(/ё/g,"е")
+      .replace(/[().,;!?'’"]/g," ").replace(/\s+/g," ").trim();
+  }
+  function answerForms(target){
+    var bases = [target, target.replace(/\(.*?\)/g, " "), target.split("(")[0]];
+    var out = [];
+    bases.forEach(function(b){
+      b.split(/[,;]/).forEach(function(part){
+        var n = norm(part);
+        if(!n) return;
+        if(out.indexOf(n) === -1) out.push(n);
+        if(n.indexOf("to ") === 0 && out.indexOf(n.slice(3)) === -1) out.push(n.slice(3));
+      });
+    });
+    return out;
+  }
+  function accepts(w, input, dir){
+    var got = norm(input);
+    if(!got) return false;
+    if(got.indexOf("to ") === 0) got = got.slice(3);
+    return answerForms(back(w, dir)).indexOf(got) !== -1;
+  }
+  function renderWrite(){
+    var d = deck();
+    if(!d.length){ view.innerHTML = emptyState("Здесь пусто. Выберите другой набор слов в фильтре."); return; }
+    if(!S.quiz) startQuiz();
+    var q = S.quiz;
+    if(q.i >= q.queue.length){ view.innerHTML = doneCard(q); wireDone("write"); return; }
+    var w = q.queue[q.i];
+
+    view.innerHTML =
+      '<div class="panel">' +
+        '<div class="prompt-label">' + (S.dir === "en-ru" ? "Напишите перевод по-русски" : "Напишите слово по-английски") + '</div>' +
+        '<div class="prompt">' + esc(front(w)) + '</div>' +
+        '<form class="answer-form" id="wform" autocomplete="off">' +
+          '<input class="answer" id="answerInput" placeholder="ваш ответ" aria-label="Ваш ответ" autocapitalize="none" spellcheck="false">' +
+          '<button class="btn-primary" type="submit">Проверить</button>' +
+        '</form>' +
+        '<div id="fb"></div>' +
+        '<div class="score-row"><span>' + (q.i+1) + " / " + q.queue.length + '</span><span>верно: ' + q.right + ' · ошибок: ' + q.wrong + '</span></div>' +
+      '</div>';
+
+    var input = document.getElementById("answerInput");
+    input.focus();
+    document.getElementById("wform").onsubmit = function(e){
+      e.preventDefault();
+      if(q.answered){ q.answered = false; q.i++; renderWrite(); return; }
+      var ok = accepts(w, input.value);
+      q.answered = true;
+      if(ok){ q.right++; S.known[w.id] = 1; delete S.hard[w.id]; }
+      else { q.wrong++; delete S.known[w.id]; S.hard[w.id] = 1; }
+      save(); renderMeter();
+      document.getElementById("fb").innerHTML =
+        '<div class="feedback ' + (ok ? "right" : "wrong") + '">' +
+          (ok ? "Верно. " : "Правильный ответ: ") + '<b>' + esc(back(w)) + '</b>' +
+        '</div>';
+      input.disabled = true;
+      var btn = view.querySelector(".btn-primary");
+      btn.textContent = "Дальше";
+      btn.focus();
+    };
+  }
+
+  function doneCard(q){
+    var total = q.right + q.wrong;
+    var pct = total ? Math.round(q.right/total*100) : 0;
+    return '<div class="panel done-card">' +
+      '<div class="big-num">' + pct + '%</div>' +
+      '<h2>Раунд пройден</h2>' +
+      '<p>Верно ' + q.right + ' из ' + total + '. ' + (q.wrong ? 'Ошибки отмечены звёздочкой — повторите их в наборе «Трудные».' : 'Ни одной ошибки.') + '</p>' +
+      '<button class="btn-primary" id="againBtn">Пройти ещё раз</button>' +
+    '</div>';
+  }
+  function wireDone(mode){
+    document.getElementById("againBtn").onclick = function(){
+      startQuiz();
+      mode === "learn" ? renderLearn() : renderWrite();
+    };
+  }
+
+  /* ---------------- подбор ---------------- */
+  function startMatch(){
+    var pairs = shuffled(deck()).slice(0, Math.min(6, deck().length));
+    var tiles = [];
+    pairs.forEach(function(w){
+      tiles.push({id:w.id, side:"en", text:w.en});
+      tiles.push({id:w.id, side:"ru", text:w.ru});
+    });
+    S.match = { tiles:shuffled(tiles), pairs:pairs.length, left:pairs.length, picked:null, t0:Date.now(), done:false, misses:0 };
+  }
+  function renderMatch(){
+    if(deck().length < 2){ view.innerHTML = emptyState("Для игры нужно хотя бы 2 слова. Выберите другой набор."); return; }
+    if(!S.match) startMatch();
+    var m = S.match;
+
+    if(m.done){
+      var secs = Math.round((m.tEnd - m.t0)/1000);
+      view.innerHTML = '<div class="panel done-card">' +
+        '<div class="big-num">' + secs + ' с</div>' +
+        '<h2>Все пары собраны</h2>' +
+        '<p>' + m.pairs + ' пар, ошибок: ' + m.misses + '.</p>' +
+        '<button class="btn-primary" id="againBtn">Новый раунд</button></div>';
+      document.getElementById("againBtn").onclick = function(){ startMatch(); renderMatch(); };
+      return;
+    }
+
+    view.innerHTML =
+      '<div class="match-grid" id="grid">' +
+        m.tiles.map(function(t,k){
+          return '<button class="tile ' + t.side + '" data-k="' + k + '">' + esc(t.text) + '</button>';
+        }).join("") +
+      '</div>' +
+      '<div class="score-row"><span>Соедините слово и перевод</span><span>осталось пар: ' + m.left + '</span></div>';
+
+    var grid = document.getElementById("grid");
+    Array.prototype.forEach.call(grid.children, function(el, k){
+      var t = m.tiles[k];
+      if(t.matched){ el.classList.add("gone"); el.disabled = true; return; }
+      if(m.picked === k) el.classList.add("picked");
+      el.onclick = function(){
+        if(m.picked === null){ m.picked = k; renderMatch(); return; }
+        if(m.picked === k){ m.picked = null; renderMatch(); return; }
+        var a = m.tiles[m.picked], b = t;
+        if(a.id === b.id && a.side !== b.side){
+          a.matched = true; b.matched = true;
+          m.picked = null; m.left--;
+          if(m.left === 0){ m.done = true; m.tEnd = Date.now(); }
+          renderMatch();
+        } else {
+          m.misses++;
+          el.classList.add("bad");
+          var prev = grid.children[m.picked];
+          if(prev) prev.classList.add("bad");
+          m.picked = null;
+          setTimeout(function(){ if(S.mode === "match") renderMatch(); }, 340);
+        }
+      };
+    });
+  }
+
+  /* ---------------- тест ---------------- */
+  var TEST = { fmt:"write", dir:"ru-en", count:10 };
+  function resetTest(){ S.test = null; }
+
+  function startTest(){
+    var pool = shuffled(deck());
+    var n = TEST.count === "all" ? pool.length : Math.min(TEST.count, pool.length);
+    var queue = pool.slice(0, n).map(function(w){
+      var q = { word:w, given:"", ok:false };
+      if(TEST.fmt === "choice") q.opts = shuffled(distractors(w, 3).concat([w]));
+      return q;
+    });
+    S.test = { stage:"run", queue:queue, i:0, right:0 };
+  }
+
+  function renderTest(){
+    if(!S.test) { renderTestSetup(); return; }
+    if(S.test.stage === "done") { renderTestResult(); return; }
+    if(TEST.fmt === "write") renderTestWrite(); else renderTestChoice();
+  }
+
+  function renderTestSetup(){
+    var avail = deck().length;
+    var counts = [10, 20, "all"];
+
+    view.innerHTML =
+      '<div class="panel">' +
+        '<div class="setup-group">' +
+          '<p class="setup-label">Формат теста</p>' +
+          '<div class="format-grid">' +
+            '<button class="format-card" data-fmt="write" aria-pressed="' + (TEST.fmt === "write") + '">' +
+              '<b>Написание</b><span>Показываем перевод — вы печатаете слово сами. Без подсказок.</span></button>' +
+            '<button class="format-card" data-fmt="choice" aria-pressed="' + (TEST.fmt === "choice") + '">' +
+              '<b>Выбор 1 из 4</b><span>Карточка с вопросом и четыре варианта ответа.</span></button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="setup-group">' +
+          '<p class="setup-label">Направление</p>' +
+          '<div class="seg">' +
+            '<button class="chip" data-dir="ru-en" aria-pressed="' + (TEST.dir === "ru-en") + '">Русский → английский</button>' +
+            '<button class="chip" data-dir="en-ru" aria-pressed="' + (TEST.dir === "en-ru") + '">Английский → русский</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="setup-group">' +
+          '<p class="setup-label">Сколько вопросов</p>' +
+          '<div class="seg">' +
+            counts.map(function(c){
+              var label = c === "all" ? "Все " + avail : String(c);
+              var dis = (c !== "all" && c > avail) ? " disabled" : "";
+              return '<button class="chip" data-count="' + c + '" aria-pressed="' + (TEST.count === c) + '"' + dis + '>' + label + '</button>';
+            }).join("") +
+          '</div>' +
+        '</div>' +
+        '<button class="btn-primary test-start" id="startTest"' + (avail ? "" : " disabled") + '>' +
+          (avail ? "Начать тест" : "Нет слов в выбранном наборе") + '</button>' +
+        '<p class="score-row" style="justify-content:center">Ответы проверяются в конце — разбор ошибок будет на финальном экране.</p>' +
+      '</div>';
+
+    Array.prototype.forEach.call(view.querySelectorAll("[data-fmt]"), function(b){
+      b.onclick = function(){ TEST.fmt = b.dataset.fmt; renderTestSetup(); };
+    });
+    Array.prototype.forEach.call(view.querySelectorAll("[data-dir]"), function(b){
+      b.onclick = function(){ TEST.dir = b.dataset.dir; renderTestSetup(); };
+    });
+    Array.prototype.forEach.call(view.querySelectorAll("[data-count]"), function(b){
+      b.onclick = function(){
+        TEST.count = b.dataset.count === "all" ? "all" : +b.dataset.count;
+        renderTestSetup();
+      };
+    });
+    document.getElementById("startTest").onclick = function(){ startTest(); renderTest(); };
+  }
+
+  function testHead(){
+    var t = S.test;
+    return '<div class="qbar"><div class="qbar-fill" style="width:' + (t.i / t.queue.length * 100) + '%"></div></div>' +
+      '<div class="test-meta"><span>Вопрос ' + (t.i+1) + ' из ' + t.queue.length + '</span>' +
+      '<span>' + (TEST.fmt === "write" ? "написание" : "выбор 1 из 4") + ' · ' +
+      (TEST.dir === "ru-en" ? "RU → EN" : "EN → RU") + '</span></div>';
+  }
+
+  function submitAnswer(given, ok){
+    var t = S.test, q = t.queue[t.i];
+    q.given = given; q.ok = ok;
+    if(ok){ t.right++; S.known[q.word.id] = 1; delete S.hard[q.word.id]; }
+    else { delete S.known[q.word.id]; S.hard[q.word.id] = 1; }
+    save(); renderMeter();
+    t.i++;
+    if(t.i >= t.queue.length) t.stage = "done";
+  }
+
+  function renderTestWrite(){
+    var t = S.test, q = t.queue[t.i], w = q.word;
+    view.innerHTML =
+      '<div class="panel">' + testHead() +
+        '<div class="prompt-label">' + (TEST.dir === "ru-en" ? "Напишите по-английски" : "Напишите по-русски") + '</div>' +
+        '<div class="prompt">' + esc(front(w, TEST.dir)) + '</div>' +
+        '<form class="answer-form" id="tform" autocomplete="off">' +
+          '<input class="answer" id="testInput" placeholder="ваш ответ" aria-label="Ваш ответ" autocapitalize="none" spellcheck="false">' +
+          '<button class="btn-primary" type="submit">Ответить</button>' +
+        '</form>' +
+        '<button class="skip-btn" id="skipBtn" type="button">Не знаю — пропустить</button>' +
+      '</div>';
+
+    var input = document.getElementById("testInput");
+    input.focus();
+    document.getElementById("tform").onsubmit = function(e){
+      e.preventDefault();
+      if(!input.value.trim()) return;
+      submitAnswer(input.value.trim(), accepts(w, input.value, TEST.dir));
+      renderTest();
+    };
+    document.getElementById("skipBtn").onclick = function(){ submitAnswer("", false); renderTest(); };
+  }
+
+  function renderTestChoice(){
+    var t = S.test, q = t.queue[t.i], w = q.word;
+    view.innerHTML =
+      '<div class="panel">' + testHead() +
+        '<div class="prompt-label">' + (TEST.dir === "ru-en" ? "Выберите английское слово" : "Выберите перевод") + '</div>' +
+        '<div class="prompt">' + esc(front(w, TEST.dir)) + '</div>' +
+        '<div class="options" id="topts">' +
+          q.opts.map(function(o,k){
+            return '<button class="opt" data-k="' + k + '">' + esc(back(o, TEST.dir)) + '</button>';
+          }).join("") +
+        '</div>' +
+        '<button class="skip-btn" id="skipBtn" type="button">Не знаю — пропустить</button>' +
+      '</div>';
+
+    Array.prototype.forEach.call(view.querySelectorAll(".opt"), function(b){
+      b.onclick = function(){
+        var chosen = q.opts[+b.dataset.k];
+        submitAnswer(back(chosen, TEST.dir), chosen.id === w.id);
+        renderTest();
+      };
+    });
+    document.getElementById("skipBtn").onclick = function(){ submitAnswer("", false); renderTest(); };
+  }
+
+  function renderTestResult(){
+    var t = S.test;
+    var total = t.queue.length;
+    var pct = Math.round(t.right / total * 100);
+    var wrong = t.queue.filter(function(q){ return !q.ok; });
+
+    view.innerHTML =
+      '<div class="panel done-card">' +
+        '<div class="big-num">' + pct + '%</div>' +
+        '<h2>' + t.right + ' из ' + total + '</h2>' +
+        '<p>' + (wrong.length
+          ? 'Слова с ошибками отмечены звёздочкой — они собраны в наборе «Трудные ★».'
+          : 'Весь тест без единой ошибки.') + '</p>' +
+        '<div class="done-actions">' +
+          '<button class="btn-primary" id="retryTest">Пройти ещё раз</button>' +
+          '<button class="btn-ghost" id="newTest">Настроить новый тест</button>' +
+        '</div>' +
+      '</div>' +
+      (wrong.length ?
+        '<h3 class="review-head">Разбор ошибок</h3>' +
+        '<div class="table-wrap"><table><thead><tr>' +
+          '<th>Вопрос</th><th>Ваш ответ</th><th>Правильно</th>' +
+        '</tr></thead><tbody>' +
+        wrong.map(function(q){
+          return '<tr>' +
+            '<td>' + esc(front(q.word, TEST.dir)) + '</td>' +
+            '<td><span class="your-answer' + (q.given ? "" : " blank") + '">' + esc(q.given || "нет ответа") + '</span></td>' +
+            '<td class="' + (TEST.dir === "ru-en" ? "en-cell" : "") + '">' + esc(back(q.word, TEST.dir)) + '</td>' +
+          '</tr>';
+        }).join("") + '</tbody></table></div>'
+        : "");
+
+    document.getElementById("retryTest").onclick = function(){ startTest(); renderTest(); };
+    document.getElementById("newTest").onclick = function(){ resetTest(); renderTest(); };
+  }
+
+  /* ---------------- список ---------------- */
+  function renderList(){
+    var d = deck().filter(function(w){
+      if(!S.query) return true;
+      var q = S.query.toLowerCase();
+      return w.en.toLowerCase().indexOf(q) !== -1 || w.ru.toLowerCase().indexOf(q) !== -1;
+    });
+
+    view.innerHTML =
+      '<form class="answer-form" id="sform" style="margin-bottom:14px" autocomplete="off">' +
+        '<input class="answer" id="searchInput" placeholder="Поиск по словарю урока" aria-label="Поиск по словарю" value="' + esc(S.query) + '">' +
+      '</form>' +
+      '<div class="table-wrap">' +
+        (d.length ?
+        '<table><thead><tr><th>English</th><th>Русский</th><th></th></tr></thead><tbody>' +
+        d.map(function(w){
+          return '<tr class="' + (S.known[w.id] ? "learned" : "") + '">' +
+            '<td class="en-cell">' + esc(w.en) + '<span class="pos">' + esc(w.pos) + '</span></td>' +
+            '<td>' + esc(w.ru) + '</td>' +
+            '<td class="act">' +
+              '<button class="icon-btn" data-say="' + w.id + '" aria-label="Произнести">♪</button>' +
+              '<button class="icon-btn' + (S.hard[w.id] ? " starred" : "") + '" data-star="' + w.id + '" aria-pressed="' + !!S.hard[w.id] + '" aria-label="Отметить как трудное">' + (S.hard[w.id] ? "★" : "☆") + '</button>' +
+            '</td></tr>';
+        }).join("") + '</tbody></table>'
+        : '<div class="empty">Ничего не найдено.</div>') +
+      '</div>';
+
+    var si = document.getElementById("searchInput");
+    document.getElementById("sform").onsubmit = function(e){ e.preventDefault(); };
+    si.oninput = function(){
+      S.query = si.value;
+      var at = si.selectionStart;
+      renderList();
+      var ni = document.getElementById("searchInput");
+      ni.focus(); try{ ni.setSelectionRange(at, at); }catch(e){}
+    };
+    Array.prototype.forEach.call(view.querySelectorAll("[data-say]"), function(b){
+      b.onclick = function(){ speak(byId[+b.dataset.say].en); };
+    });
+    Array.prototype.forEach.call(view.querySelectorAll("[data-star]"), function(b){
+      b.onclick = function(){
+        var id = +b.dataset.star;
+        if(S.hard[id]) delete S.hard[id]; else S.hard[id] = 1;
+        save(); renderList();
+      };
+    });
+  }
+
+  /* ---------------- прогресс: сохранить и загрузить файлом ---------------- */
+  var gate = document.getElementById("gate");
+  var fileIn = document.getElementById("fileIn");
+  var G = { msg:null, msgKind:"ok", payload:null };
+
+  function openProgress(){
+    G.msg = null; G.payload = null;
+    gate.hidden = false;
+    renderProgress();
+  }
+  function closeProgress(){
+    gate.hidden = true;
+    render();
+  }
+  function gateMsg(text, kind){
+    G.msg = text; G.msgKind = kind || "err";
+    renderProgress();
+  }
+
+  // блок загрузки прогресса: файлом или вставленным текстом
+  function importBlock(fileLabel){
+    return '<div class="row-actions">' +
+        '<button class="btn-ghost" id="importBtn" type="button">' + fileLabel + '</button>' +
+        '<button class="link-btn" id="pasteToggle" type="button">или вставить текст</button>' +
+      '</div>' +
+      '<textarea class="code" id="pasteBox" hidden placeholder=\'{"app":"' + FILE_TAG + '", ...}\' aria-label="Текст файла прогресса"></textarea>' +
+      '<div class="row-actions" id="pasteActions" hidden>' +
+        '<button class="btn-primary" id="pasteGo" type="button">Загрузить из текста</button>' +
+      '</div>';
+  }
+  function wireImport(){
+    document.getElementById("importBtn").onclick = pickFile;
+    var box = document.getElementById("pasteBox");
+    var acts = document.getElementById("pasteActions");
+    document.getElementById("pasteToggle").onclick = function(){
+      box.hidden = !box.hidden;
+      acts.hidden = box.hidden;
+      if(!box.hidden) box.focus();
+    };
+    document.getElementById("pasteGo").onclick = function(){
+      if(!box.value.trim()){ gateMsg("Вставьте текст файла прогресса."); return; }
+      applyImport(box.value);
+    };
+  }
+
+  function renderProgress(){
+    var learned = countKeys(S.known), hardN = countKeys(S.hard);
+    var started = 0;
+    LESSONS.forEach(function(L){ if(knownIn(L.n) > 0) started++; });
+
+    gate.innerHTML =
+      '<div class="gate-card" role="dialog" aria-modal="true" aria-label="Прогресс">' +
+        '<div class="gate-eyebrow">BSUIR English Wordlists</div>' +
+        '<h2>Ваш прогресс</h2>' +
+        '<p class="gate-sub">Регистрации нет: прогресс хранится в этом браузере на этом устройстве. ' +
+          'Чтобы перенести его на другое устройство, сохраните файл и загрузите там.</p>' +
+        (G.msg ? '<div class="msg ' + G.msgKind + '">' + esc(G.msg) + '</div>' : "") +
+        '<div class="stat-grid">' +
+          '<div class="stat"><b>' + learned + '</b><span>слов выучено из ' + TOTAL + '</span></div>' +
+          '<div class="stat"><b>' + hardN + '</b><span>в трудных ★</span></div>' +
+          '<div class="stat"><b>' + started + ' / ' + LESSONS.length + '</b><span>уроков начато</span></div>' +
+        '</div>' +
+        '<div class="divider">файл прогресса</div>' +
+        '<div class="row-actions">' +
+          '<button class="btn-primary" id="exportBtn" type="button">Сохранить файл</button>' +
+        '</div>' +
+        '<div style="margin-top:10px">' + importBlock("Загрузить файл") + '</div>' +
+        (G.payload ?
+          '<textarea class="code" id="payloadBox" readonly aria-label="Содержимое файла прогресса">' + esc(G.payload) + '</textarea>' +
+          '<div class="row-actions"><button class="btn-ghost" id="copyBtn" type="button">Скопировать текст</button></div>' +
+          '<p class="note" style="margin-top:10px">Если скачивание заблокировано, скопируйте текст и сохраните его ' +
+          'в файл <code>progress.json</code> вручную.</p>'
+          : "") +
+        '<p class="note" style="margin-top:16px">Очистка данных сайта в браузере сотрёт прогресс — ' +
+          'время от времени сохраняйте файл.</p>' +
+        '<div class="row-actions" style="margin-top:14px">' +
+          '<button class="btn-ghost" id="closeBtn" type="button">Закрыть</button>' +
+        '</div>' +
+        '<p style="margin-top:16px"><button class="link-btn danger" id="wipeBtn" type="button">Сбросить весь прогресс</button></p>' +
+      '</div>';
+
+    document.getElementById("exportBtn").onclick = function(){
+      var text = exportText();
+      G.payload = text;
+      G.msg = "Готовим файл…"; G.msgKind = "ok";
+      renderProgress();
+      offerDownload(fileName(), text, function(status){
+        if(status === "saved"){ G.msg = "Файл сохранён."; G.msgKind = "ok"; }
+        else if(status === "declined"){ G.msg = "Сохранение отменено. Текст файла ниже — его можно скопировать."; G.msgKind = "err"; }
+        else { G.msg = "Скачать файл здесь нельзя — скопируйте текст ниже."; G.msgKind = "err"; }
+        renderProgress();
+      });
+    };
+    wireImport();
+    if(G.payload){
+      document.getElementById("copyBtn").onclick = function(){
+        var box = document.getElementById("payloadBox");
+        box.select();
+        var done = false;
+        try{ done = document.execCommand("copy"); }catch(e){}
+        if(navigator.clipboard){ try{ navigator.clipboard.writeText(box.value); done = true; }catch(e){} }
+        gateMsg(done ? "Скопировано." : "Не удалось скопировать — выделите текст вручную.", done ? "ok" : "err");
+      };
+    }
+    document.getElementById("closeBtn").onclick = closeProgress;
+    document.getElementById("wipeBtn").onclick = function(){
+      if(!confirm("Сбросить прогресс по всем урокам? Отменить это нельзя.")) return;
+      S.known = {}; S.hard = {};
+      save();
+      startQuiz(); startMatch(); resetTest();
+      G.msg = "Прогресс сброшен."; G.msgKind = "ok";
+      renderProgress();
+    };
+  }
+
+  function exportText(){
+    return JSON.stringify({
+      app: FILE_TAG,
+      version: 2,
+      exported: new Date().toISOString(),
+      progress: { known:S.known, hard:S.hard }
+    }, null, 1);
+  }
+  function fileName(){
+    return "progress-" + new Date().toISOString().slice(0, 10) + ".json";
+  }
+  // На GitHub Pages и при открытии файла с диска работает обычная ссылка-скачивание.
+  // Внутри просмотрщика артефактов claude.ai ссылки не работают — там файл отдаёт
+  // возможность downloads. Если недоступно ни то, ни другое — остаётся копирование текста.
+  function offerDownload(name, text, done){
+    if(window.claude && typeof window.claude.use === "function"){
+      try{
+        window.claude.use("downloads").then(function(d){
+          if(!d){ done("blocked"); return; }
+          d.save({ filename:name, data:text }).then(
+            function(){ done("saved"); },
+            function(err){ done(err && err.code === "declined" ? "declined" : "blocked"); }
+          );
+        }, function(){ done("blocked"); });
+        return;
+      }catch(e){}
+    }
+    done(downloadFile(name, text) ? "saved" : "blocked");
+  }
+
+  function downloadFile(name, text){
+    try{
+      var blob = new Blob([text], {type:"application/json"});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 800);
+      return true;
+    }catch(e){ return false; }
+  }
+
+  function pickFile(){
+    fileIn.value = "";
+    fileIn.click();
+  }
+  fileIn.onchange = function(){
+    var f = fileIn.files && fileIn.files[0];
+    if(!f) return;
+    var r = new FileReader();
+    r.onload = function(){ applyImport(String(r.result)); };
+    r.onerror = function(){ gateMsg("Не удалось прочитать файл."); };
+    r.readAsText(f);
+  };
+
+  // загрузка объединяет файл с текущим прогрессом, ничего не затирая.
+  // Понимает и файлы прежней версии с профилями (поле profile).
+  function applyImport(text){
+    var d;
+    try{ d = JSON.parse(text); }
+    catch(e){ gateMsg("Это не файл прогресса: не читается как JSON."); return; }
+    var src = d && d.app === FILE_TAG ? (d.progress || d.profile) : null;
+    if(!src){ gateMsg("Это файл от другого приложения."); return; }
+
+    var before = countKeys(S.known);
+    var known = src.known || {}, hard = src.hard || {};
+    for(var k in known) if(known.hasOwnProperty(k) && byId[k]){ S.known[k] = 1; delete S.hard[k]; }
+    for(var h in hard) if(hard.hasOwnProperty(h) && byId[h] && !S.known[h]) S.hard[h] = 1;
+    save();
+    startQuiz(); startMatch(); resetTest();
+    var added = countKeys(S.known) - before;
+    G.payload = null;
+    gateMsg("Прогресс загружен: выучено " + countKeys(S.known) + " слов" +
+      (added > 0 ? " (+" + added + " новых)." : "."), "ok");
+  }
+
+  document.getElementById("profileBtn").onclick = openProgress;
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && !gate.hidden) closeProgress();
+  });
+
+  /* ---------------- маршрутизация ---------------- */
+  function render(){
+    renderHead();
+    // в режимах «Уроки» и «Тест» общие переключатели не нужны
+    document.getElementById("dirBtn").hidden = (S.mode === "test" || S.mode === "index");
+    document.getElementById("filterSel").hidden = (S.mode === "index");
+    document.getElementById("shuffleBtn").hidden = (S.mode === "index");
+
+    if(S.mode === "index") renderIndex();
+    else if(S.mode === "cards") renderCards();
+    else if(S.mode === "learn") renderLearn();
+    else if(S.mode === "write") renderWrite();
+    else if(S.mode === "match") renderMatch();
+    else if(S.mode === "test") renderTest();
+    else renderList();
+  }
+
+  function setMode(mode){
+    S.mode = mode;
+    S.flipped = false;
+    Array.prototype.forEach.call(document.querySelectorAll(".mode"), function(x){
+      x.setAttribute("aria-selected", String(x.dataset.mode === mode));
+    });
+    if(mode === "learn" || mode === "write") startQuiz();
+    if(mode === "match") startMatch();
+    if(mode === "test") resetTest();
+    render();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".mode"), function(b){
+    b.onclick = function(){ setMode(b.dataset.mode); };
+  });
+
+  document.getElementById("lessonSel").onchange = function(e){
+    selectLesson(+e.target.value);
+    render();
+  };
+
+  var dirBtn = document.getElementById("dirBtn");
+  function paintDir(){
+    dirBtn.textContent = S.dir === "en-ru" ? "EN → RU" : "RU → EN";
+    dirBtn.setAttribute("aria-pressed", String(S.dir === "ru-en"));
+  }
+  paintDir();
+  dirBtn.onclick = function(){
+    S.dir = S.dir === "en-ru" ? "ru-en" : "en-ru";
+    paintDir(); save();
+    S.flipped = false;
+    if(S.mode === "learn" || S.mode === "write") startQuiz();
+    render();
+  };
+
+  document.getElementById("filterSel").onchange = function(e){
+    S.filter = e.target.value;
+    S.pos = 0; S.flipped = false;
+    startQuiz(); startMatch(); resetTest();
+    render();
+  };
+
+  document.getElementById("shuffleBtn").onclick = function(){
+    S.order = shuffled(S.order);
+    S.pos = 0; S.flipped = false;
+    startQuiz(); startMatch(); resetTest();
+    render();
+  };
+
+  document.getElementById("resetBtn").onclick = function(){
+    var L = lesson();
+    if(!confirm("Сбросить отметки «выучено» и «трудное» для урока " + L.n + " (" + L.title + ")?")) return;
+    words().forEach(function(w){ delete S.known[w.id]; delete S.hard[w.id]; });
+    save();
+    startQuiz(); startMatch(); resetTest();
+    render();
+  };
+
+  document.addEventListener("keydown", function(e){
+    if(S.mode !== "cards") return;
+    var tag = (e.target && e.target.tagName) || "";
+    if(tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+    if(e.code === "Space"){ e.preventDefault(); S.flipped = !S.flipped; renderCards(); }
+    else if(e.key === "ArrowRight"){ step(1); }
+    else if(e.key === "ArrowLeft"){ step(-1); }
+  });
+
+  fillLessonSelect();
+  render();
+})();
+</script>
